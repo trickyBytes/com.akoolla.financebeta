@@ -1,5 +1,7 @@
 package com.akoolla.financebeta.transaction;
 
+import java.util.Set;
+
 import org.joda.time.DateTime;
 
 /**
@@ -30,4 +32,6 @@ public interface ITransaction extends Comparable<ITransaction> {
 	 * @since 1.0
 	 */
 	DateTime getTransactionDate();
+	
+	Set<String> listTags();
 }

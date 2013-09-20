@@ -6,6 +6,8 @@ import java.util.TreeSet;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 
+import com.google.common.collect.ImmutableSet;
+
 /**
  * @author richardt
  * @since 1.0
@@ -62,10 +64,44 @@ public class Transaction implements ITransaction {
 	public DateTime getTransactionDate() {
 		return this.date;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		boolean isSame = false;
+		
+		if(obj != null && obj instanceof ITransaction){
+			ITransaction transaction2 = (ITransaction) obj;
+			if (date != null && transaction2.getTransactionDate() != null){
+				if(date.equals(transaction2.getTransactionDate())){
+					if (amount == transaction2.getAmount()){
+						if (tags.size() == transaction2.listTags().size()){
+							for (String tag : tags){
+								if (transaction2.hasTag(tag) == false){
+									break;
+								}
+								isSame = true;
+							}
+						}
+					}
+				}
+			}
+		} 
+		
+		return isSame;
+	}
 
 	@Override
-	public int compareTo(ITransaction arg0) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int compareTo(ITransaction tranaction) {
+		if (this.equals(tranaction)){
+			return 0;
+		} else {
+			//TODO implement comparable properly
+			return 1;
+		}
+	}
+
+	@Override
+	public Set<String> listTags() {
+		return ImmutableSet.<String>builder().addAll(tags).build();
 	}
 }

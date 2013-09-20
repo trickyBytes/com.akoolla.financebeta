@@ -6,6 +6,9 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertThat;
 
+import java.util.Set;
+import java.util.TreeSet;
+
 import org.joda.time.DateTime;
 import org.junit.Test;
 
@@ -58,5 +61,39 @@ public class TransactionCreationTests {
 	@Test(expected=IllegalArgumentException.class)
 	public void AllTransactionsMustHaveAtLeastOneTag() {
 		new Transaction(100d, new String[0]);
+	}
+	
+	
+	@Test
+	public void TransactionsShouldNotBeEqualUnlessDateAndAmountAreTheSame() throws Exception {
+		ITransaction firstTransaction = new Transaction(new DateTime(2013,1,1,1,1), 100d, "XXX");
+		ITransaction secondTransaction = new Transaction(new DateTime(2013,2,1,1,1), 100d, "XXX");
+		assertThat("Should be false if dates are different", firstTransaction.equals(secondTransaction), is(false));
+		
+		firstTransaction = new Transaction(new DateTime(2013,1,1,1,1), 100d, "XXX");
+		secondTransaction = new Transaction(new DateTime(2013,1,1,1,1), 150d, "XXX");
+		assertThat("Should be different if amounts are different", firstTransaction.equals(secondTransaction), is(false));
+		
+		firstTransaction = new Transaction(new DateTime(2013,1,1,1,1), 100d, "XXX");
+		secondTransaction = new Transaction(new DateTime(2013,1,1,1,1), 100d, "XXXX");
+		assertThat("Should be different if tags are different", firstTransaction.equals(secondTransaction), is(false));
+		
+		firstTransaction = new Transaction(new DateTime(2013,1,1,1,1), 100d, "XXX");
+		secondTransaction = new Transaction(new DateTime(2013,1,1,1,1), 100d, "XXX");
+		assertThat(firstTransaction.equals(secondTransaction), is(true));
+	}
+	
+	@Test
+	public void TransactionsWithDifferentDatesShouldNotBeTheSame() throws Exception {
+		ITransaction firstTransaction = new Transaction(new DateTime(2013,1,1,1,1), 100d, "XXX");
+		ITransaction secondTransaction = new Transaction(new DateTime(2013,2,1,1,1), 100d, "XXX");
+		
+		assertThat(firstTransaction.equals(secondTransaction), is(false));
+		
+		Set<ITransaction> transactions = new TreeSet<>();
+		transactions.add(firstTransaction);
+		transactions.add(secondTransaction);
+		
+		assertThat(transactions.size(), equalTo(2));
 	}
 }
