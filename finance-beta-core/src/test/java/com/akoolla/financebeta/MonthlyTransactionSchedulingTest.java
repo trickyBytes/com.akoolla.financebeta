@@ -33,6 +33,13 @@ public class MonthlyTransactionSchedulingTest {
 		assertThat("Transactions for 2013", transactionSchedule.getTransactionsForYear(2013, afterTransactionEndDate).size(), equalTo(0));
 	}
 	
+	@Test
+	public void IfTransactionIsScheduledAsMonthlyThenOnlyOneTransacionShouldBeReturnedForAMonth() throws Exception {
+		ITransactionSchedule transactionSchedule = new TransactionSchedule(transaction, ScheduleType.MONTH, 1, new DateTime(2013,9,1,0,0), new DateTime(2013,9,30,0,0));
+		
+		Set<ITransaction> monthlyTransactions = transactionSchedule.getTransactionsForMonth(2013, 9, new DateTime(2013,9,1,0,0));
+		assertThat("Transactions in month", monthlyTransactions.size(), equalTo(1));
+	}
 	
 	@Test
 	public void CanScheduleATransactionToHappenOnlyOnce() throws Exception {
@@ -45,9 +52,9 @@ public class MonthlyTransactionSchedulingTest {
 		
 		assertThat("Transaction list", transactions, notNullValue());
 		assertThat("Transaction list size", transactions.size(), equalTo(1));
-		
-		assertThat("Expected next transaction", transactionSchedule.getNextTransaction(firstOfJan2013), notNullValue());
-		assertThat("Expected next transaction", new DateTime(2013,9,1,0,0), equalTo(transactionSchedule.getNextTransaction(firstOfJan2013).getTransactionDate()));
+
+		assertThat("Get next transaction should return the correct transaction", transactionSchedule.getNextTransaction(firstOfJan2013), notNullValue());
+		assertThat("Expected next transaction date", new DateTime(2013,9,1,0,0), equalTo(transactionSchedule.getNextTransaction(firstOfJan2013).getTransactionDate()));
 	}
 	
 	@Test
