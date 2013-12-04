@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Built-By: rtiffin
+Build-Jdk: 1.7.0
+Specification-Title: Finance Beta API
+Specification-Version: 0.0.1-SNAPSHOT
+Implementation-Title: Finance Beta API
+Implementation-Version: 0.0.1-SNAPSHOT
+Implementation-Vendor-Id: com.akoolla
+Created-By: Maven Integration for Eclipse
+

@@ -78,13 +78,13 @@ public class TransactionCreationTests {
 		secondTransaction = new Transaction(new DateTime(2013,1,1,1,1), 100d, "XXXX");
 		assertThat("Should be different if tags are different", firstTransaction.equals(secondTransaction), is(false));
 		
-		firstTransaction = new Transaction(new DateTime(2013,1,1,1,1), 100d, "XXX");
-		secondTransaction = new Transaction(new DateTime(2013,1,1,1,1), 100d, "XXX");
-		assertThat(firstTransaction.equals(secondTransaction), is(true));
+		firstTransaction = new Transaction(new DateTime(2013,1,1,1,1), 100d, "XXX", "xx");
+		secondTransaction = new Transaction(new DateTime(2013,1,1,1,1), 100d, "XXX", "xx");
+		assertThat("Should be the same if tags and dates are the same", firstTransaction.equals(secondTransaction), is(true));
 	}
 	
 	@Test
-	public void TransactionsWithDifferentDatesShouldNotBeTheSame() throws Exception {
+	public void TransactionsWithDifferentDatesShouldNotBeTheEqual() throws Exception {
 		ITransaction firstTransaction = new Transaction(new DateTime(2013,1,1,1,1), 100d, "XXX");
 		ITransaction secondTransaction = new Transaction(new DateTime(2013,2,1,1,1), 100d, "XXX");
 		

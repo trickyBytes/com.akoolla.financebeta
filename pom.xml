@@ -86,7 +86,7 @@
 				<scope>runtime</scope>
 			</dependency>
 
-			<!-- this routes slf onto log4j 1.2 -->
+			<!-- this routes slf onto log4j -->
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-log4j12</artifactId>
@@ -148,6 +148,11 @@
 				<artifactId>joda-time</artifactId>
 				<version>2.1</version>
 			</dependency>
+			<dependency>
+				<groupId>org.pojomatic</groupId>
+				<artifactId>pojomatic</artifactId>
+				<version>1.0</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -194,6 +199,13 @@
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>org.pojomatic</groupId>
+			<artifactId>pojomatic</artifactId>
+
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -226,13 +238,13 @@
 		<!-- To use the plugin goals in your POM or parent POM -->
 		<plugins>
 			<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-release-plugin</artifactId>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-deploy-plugin</artifactId>
-				</plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -265,5 +277,6 @@
 	<modules>
 		<module>finance-beta-api</module>
 		<module>finance-beta-core</module>
+		<module>finance-beta-mongorepository</module>
 	</modules>
 </project>

@@ -5,7 +5,8 @@ import java.util.TreeSet;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import org.joda.time.Months;
+import org.pojomatic.Pojomatic;
+import org.pojomatic.annotations.AutoProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,6 +14,7 @@ import com.akoolla.financebeta.scheduling.ScheduleType;
 import com.akoolla.financebeta.transaction.ITransaction;
 import com.akoolla.financebeta.transaction.Transaction;
 
+@AutoProperty
 public class TransactionSchedule implements ITransactionSchedule {
 	
 	private static Logger LOG = LoggerFactory.getLogger(TransactionSchedule.class);
@@ -163,7 +165,30 @@ public class TransactionSchedule implements ITransactionSchedule {
 
 	@Override
 	public Set<ITransaction> getTransactionsForDay(int year, int month, int day) {
-		// TODO Auto-generated method stub
-		return null;
+		Set<ITransaction> transactions = new TreeSet<>();
+		DateTime fromDate = buildToTimeZone(new DateTime(year,month,day,0,0));
+		
+		if (endDate != null && endDate.isBefore(fromDate)){
+			LOG.debug("From date:{} is after scheduled end date{}, no transactions scheduled", new Object[]{fromDate, endDate});
+		} else {
+			transactions.add(new Transaction(fromDate, this.transaction.getAmount(), this.transaction.listTags().toArray(new String[0])));
+		}
+		
+		return transactions;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		return Pojomatic.equals(this, obj);
+	}
+	
+	@Override
+	public int hashCode(){
+		return Pojomatic.hashCode(this);
+	}
+	
+	@Override
+	public String toString() {
+		return Pojomatic.toString(this);
 	}
 }
